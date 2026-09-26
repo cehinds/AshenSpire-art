@@ -21,8 +21,10 @@ on:
   workflow_dispatch:
 permissions:
   contents: write
-# One release at a time, and never cancelled: two quick merges publish v<N>
-# and then v<N+1>, in order.
+# One release at a time, never cancelled once running. GitHub keeps one run
+# waiting per group, so in a burst of merges a waiting run can be replaced by a
+# newer one. Nothing is lost: each run packs main as it stands, so the newest
+# run ships every change merged before it.
 concurrency:
   group: release
   cancel-in-progress: false
@@ -43,9 +45,13 @@ jobs:
         run: |
           set -euo pipefail
           floor="$(node -p "require('./release.json').version")"
-          latest="$(gh release list --limit 1000 --json tagName --jq '[.[].tagName | select(test("^hd-assets-v[0-9]+$")) | ltrimstr("hd-assets-v") | tonumber] | max // 0')"
+          # Tags as well as releases: a tag left behind by a deleted release
+          # must not be reused.
+          latest="$( { gh release list --limit 1000 --json tagName --jq '.[].tagName'; git ls-remote --tags --refs origin 'hd-assets-v*' | sed 's#.*refs/tags/##'; } \
+            | { grep -E '^hd-assets-v[0-9]+$' || true; } | sed 's/^hd-assets-v//' | sort -n | tail -1)"
+          latest="${latest:-0}"
           next=$(( latest + 1 > floor ? latest + 1 : floor ))
-          echo "release.json floor: $floor; newest published: ${latest:-none}; publishing: v$next"
+          echo "release.json floor: $floor; newest tag: v$latest (0 = none); publishing: v$next"
           # The runner's copy only: the pack names the zip and the manifest from it.
           printf '{ "version": %s }\n' "$next" > release.json
           echo "TAG=hd-assets-v$next" >> "$GITHUB_ENV"
