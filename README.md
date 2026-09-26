@@ -21,7 +21,7 @@ Each release `hd-assets-v<N>` carries:
 - `hd-assets-v<N>.zip.sha256`;
 - `art-manifest.json` — path, bytes and sha256 of every file.
 
-AshenSpire pins one release (tag and zip sha256) in its own `art-manifest.json`,
+AshenSpire pins one release (tag and zip sha256) in its own `art-release.json`,
 and its `tools/fetch-art.mjs` downloads that zip and checks the zip's hash and
 every file's hash before anything uses it. For players, unpack the zip as `hd/`
 next to `AshenSpire.html`, or choose the unpacked folder in
@@ -33,7 +33,7 @@ Settings → Display → Art quality → Local high-res.
 2. `pack` CI checks the pack is reproducible and every entry verifies.
 3. After it merges, bump `release.json` in a PR, then the owner runs the
    **release** workflow, which publishes `hd-assets-v<N>`.
-4. A PR in AshenSpire pins the new tag and hash, fetches it, and regenerates
+4. A PR in AshenSpire pins the new tag and hash in `art-release.json`, fetches it, and regenerates
    `assets-mobile/` from it.
 
 ```

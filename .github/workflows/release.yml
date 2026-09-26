@@ -9,6 +9,11 @@ permissions:
   contents: write
 jobs:
   release:
+    # Only what is merged to main is published, and only after the owner
+    # approves the `release` environment (Settings → Environments: add the
+    # owner as its required reviewer).
+    if: github.ref == 'refs/heads/main'
+    environment: release
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -33,4 +38,4 @@ jobs:
           gh release create "$tag" \
             "dist/$tag.zip" "dist/$tag.zip.sha256" dist/art-manifest.json \
             --target "$GITHUB_SHA" --title "$tag" \
-            --notes "High-res art for AshenSpire, packed from $GITHUB_SHA. Pin it in AshenSpire's art-manifest.json with the sha256 in $tag.zip.sha256."
+            --notes "High-res art for AshenSpire, packed from $GITHUB_SHA. Pin it in AshenSpire's art-release.json with the sha256 in $tag.zip.sha256."

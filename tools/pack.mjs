@@ -42,6 +42,7 @@ function walk(dir, out = []) {
     const abs = join(dir, e.name);
     if (e.isDirectory()) walk(abs, out);
     else if (e.isFile()) out.push(abs);
+    else throw new Error(`pack: ${abs} is neither a file nor a directory (a symlink?) — commit the file itself`);
   }
   return out;
 }
@@ -111,12 +112,13 @@ export function verifyZip(zipBuf) {
   const ids = Object.keys(manifest.assets || {});
   if (manifest.count !== ids.length) problems.push(`manifest says count ${manifest.count} but lists ${ids.length}`);
   for (const id of ids) {
-    const rec = manifest.assets[id].high;
+    const rec = manifest.assets[id] && manifest.assets[id].high;
+    if (!rec) { problems.push(`${id}: no high record in the manifest`); continue; }
     const data = byName.get(rec.path);
     if (!data) { problems.push(`${id}: listed, not in the zip`); continue; }
     if (data.length !== rec.bytes || sha256(data) !== rec.sha256) problems.push(`${id}: bytes differ from the manifest`);
   }
-  const listed = new Set(ids.map((id) => manifest.assets[id].high.path));
+  const listed = new Set(ids.map((id) => manifest.assets[id]?.high?.path).filter(Boolean));
   for (const name of byName.keys()) if (name !== 'art-manifest.json' && !listed.has(name)) problems.push(`${name}: in the zip, not in the manifest`);
   return problems;
 }
