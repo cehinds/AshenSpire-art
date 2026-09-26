@@ -1,0 +1,6 @@
+{
+  "from": "cehinds/AshenSpire",
+  "commit": "9d56683ed09b516e30b2fdd1e7db2b8936ce0be7",
+  "assets": 5201,
+  "note": "hd/assets/ holds the ids art-manifest.json listed at that commit; art/ and art/equipment-components/ are that commit's art/ and assets/equipment/components/."
+}
