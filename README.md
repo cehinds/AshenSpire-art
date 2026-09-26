@@ -10,7 +10,7 @@ of that repository so its clones and its Git LFS budget do not grow with art
 | `art/` | the authoring sources: reference sheets, pose studies, outfit and weapon sets, map sources, inspection pages |
 | `art/equipment-components/` | the equipment reference strips (never shipped; formerly `assets/equipment/components/`) |
 | `IMPORTED.json` | the AshenSpire commit the first import came from |
-| `release.json` | the version the next release is packed as |
+| `release.json` | the lowest version the next release may take (the release workflow uses the next unused one) |
 | `CREDITS.md` | AshenSpire's credits and AI disclosure at the import commit |
 
 ## Releases
@@ -31,8 +31,9 @@ Settings → Display → Art quality → Local high-res.
 
 1. A PR here changes `hd/assets/` (and `art/` or a ship tool).
 2. `pack` CI checks the pack is reproducible and every entry verifies.
-3. After it merges, bump `release.json` in a PR, then the owner runs the
-   **release** workflow, which publishes `hd-assets-v<N>`.
+3. When it merges, the **release** workflow runs by itself and publishes
+   `hd-assets-v<N>` at the next unused N. There is no bump or button to press;
+   it can still be run by hand from Actions.
 4. A PR in AshenSpire pins the new tag and hash in `art-release.json`, fetches it, and regenerates
    `assets-mobile/` from it.
 
