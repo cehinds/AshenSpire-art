@@ -1,8 +1,4 @@
-# Line endings are never converted: art is bytes. SVGs are also canonicalised
-# to LF by tools/pack.mjs, so a checkout either way packs the same release.
+# Line endings are never converted: the art and its sidecar files are kept byte
+# for byte as imported. tools/pack.mjs canonicalises SVG line endings itself, so
+# a checkout on any OS packs the same release.
 * -text
-*.svg text eol=lf
-*.mjs text eol=lf
-*.md text eol=lf
-*.json text eol=lf
-*.yml text eol=lf
