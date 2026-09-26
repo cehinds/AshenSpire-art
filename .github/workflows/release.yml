@@ -1,0 +1,36 @@
+name: release
+# The owner runs this by hand (Actions → release → Run workflow) after the art
+# change is merged to main. It packs hd/assets/ at release.json's version and
+# publishes release hd-assets-v<N> with the zip, its sha256 and the manifest.
+# It refuses when that tag already exists: bump release.json in a PR first.
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - name: Verify, then pack
+        run: |
+          node --test tests/*.test.mjs
+          node tools/pack.mjs --check
+          node tools/pack.mjs
+      - name: Publish the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          tag="hd-assets-v$(node -p "require('./release.json').version")"
+          if gh release view "$tag" >/dev/null 2>&1; then
+            echo "::error::$tag already exists — bump release.json in a PR, then run this again."
+            exit 1
+          fi
+          gh release create "$tag" \
+            "dist/$tag.zip" "dist/$tag.zip.sha256" dist/art-manifest.json \
+            --target "$GITHUB_SHA" --title "$tag" \
+            --notes "High-res art for AshenSpire, packed from $GITHUB_SHA. Pin it in AshenSpire's art-manifest.json with the sha256 in $tag.zip.sha256."

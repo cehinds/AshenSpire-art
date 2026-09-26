@@ -1,0 +1,21 @@
+name: pack
+# Every PR and every push to main: the tests pass, and hd/assets/ packs into a
+# zip that is reproducible and whose every entry matches its manifest.
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  pack:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - name: The zip format and the pack catch their known-bads
+        run: node --test tests/*.test.mjs
+      - name: hd/assets/ packs reproducibly and verifies against its manifest
+        run: node tools/pack.mjs --check
