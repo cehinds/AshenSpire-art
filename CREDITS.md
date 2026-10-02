@@ -316,3 +316,18 @@ third-party license is claimed.
 ## Rendered music score (2026-09-26)
 
 The recorded score is written as code. Each track is a list of notes in `music/score/<id>.mjs`, rendered offline by `node tools/score/render.mjs` on the synthesizer in `tools/score/synth.mjs` into `music/<context>/<id>.mp3`. Every instrument (strings, cello, wordless choir, organ, harp, bells, bowed metal, drones, taiko, frame drum) is synthesized from oscillators and noise: no samples, soundfonts or licensed music, and no AI music model. The two earlier AI-model recordings were removed on the owner's instruction (2026-09-26). No third-party asset licence is claimed.
+
+
+## Player interface exports (2026-10-02)
+
+`hd/assets/player-polish/` and `light/assets/player-polish/` contain 95
+first-party runtime exports from the [reviewed source kit](https://github.com/cehinds/AshenSpire/tree/dev/docs/design/player-polish-asset-kit-2026-10-02).
+The paintings/materials were generated with OpenAI Image Generation; engraved
+SVG geometry was authored for this project. No third-party icon pack or
+artwork was used, and no third-party license is claimed. Original prompts,
+source hashes and generation provenance remain in that source kit. High
+exports are made by AshenSpire tools/player-polish-art.py; light exports are
+encoded here by tools/mobile-art.mjs using the same native policy.
+Source/output checksums and encoder versions are retained in
+[the export record](art/player-polish-runtime/exports.json). Canonical
+characters, items, maps, floors, animations and common pack are unchanged.
