@@ -24,9 +24,11 @@
 // art-manifest.json for the same trees: the game's step 11 replaces its derived
 // manifest with this one, and its readers need not change.
 //
-// THE COMMITTED MANIFEST IS ALSO THE LIGHT TIER'S RECORD: a light twin whose
-// row names the current high file's sha256 was made from that file, so
-// tools/mobile-art.mjs keeps it rather than re-encoding it (see its header).
+// THIS FILE IS NOT THE LIGHT TIER'S PROVENANCE. --write records whatever is on
+// disk, so it cannot say whether a twin was re-encoded after its high file
+// changed. tools/mobile-art.mjs keeps its own record (light/.twin-sources.json)
+// and its --check fails on a twin made from another high file or policy.
+// When hd/assets/ changes: node tools/mobile-art.mjs first, then --write here.
 //
 // DERIVED, NEVER HAND-EDITED. --check is a CI gate, and tools/pack.mjs refuses
 // to pack while it is red. Text (SVG, JSON, the licence) is recorded by its LF
@@ -200,6 +202,39 @@ export function commonFiles(root = ROOT) {
 }
 
 /**
+ * commonConsistency(files) → problems: the common pack is whole. The fonts
+ * never ship without their licence, and music/manifest.json names exactly the
+ * MP3s the pack carries (every listed track is there; every track is listed).
+ */
+export function commonConsistency(files) {
+  const problems = [];
+  const ids = new Set(files.map((f) => f.id));
+  if ([...ids].some((id) => id.startsWith(`assets/${COMMON_ASSET_PREFIX}`)) && !ids.has(LICENSE_ID)) {
+    problems.push(`${COMMON_DIR}/${LICENSE_ID} is missing: the fonts (SIL OFL) must ship with their licence`);
+  }
+  const tracks = [...ids].filter((id) => id.startsWith('music/') && id.endsWith('.mp3'));
+  const music = files.find((f) => f.id === 'music/manifest.json');
+  if (!music) {
+    if (tracks.length) problems.push(`${COMMON_DIR}/music/manifest.json is missing, but ${tracks.length} track(s) are present`);
+    return problems;
+  }
+  let listed;
+  try { listed = JSON.parse(canonicalBytes(music.abs).toString('utf8')); } catch (e) { return [...problems, `${COMMON_DIR}/music/manifest.json is not JSON: ${e.message}`]; }
+  const named = new Set();
+  for (const [context, list] of Object.entries(listed)) {
+    if (context.startsWith('_')) continue;
+    if (!Array.isArray(list)) { problems.push(`${COMMON_DIR}/music/manifest.json: "${context}" is not a list of tracks`); continue; }
+    for (const rel of list) {
+      const id = `music/${rel}`;
+      named.add(id);
+      if (!ids.has(id)) problems.push(`${COMMON_DIR}/music/manifest.json: "${context}" names ${rel}, which is not in ${COMMON_DIR}/music/`);
+    }
+  }
+  for (const id of tracks) if (!named.has(id)) problems.push(`${COMMON_DIR}/${id}: no context in music/manifest.json plays it`);
+  return problems;
+}
+
+/**
  * buildManifest(root) → { manifest, problems }. Ids come from hd/assets/ (the
  * source the light tree mirrors) and common/. A missing light twin is recorded
  * as `light: null` and reported, never left as a silent gap.
@@ -227,6 +262,7 @@ export function buildManifest(root = ROOT) {
     if (assets[id]) { problems.push(`${id}: both an art id and a common id`); continue; }
     assets[id] = { common: commonRecord(abs, id) };
   }
+  problems.push(...commonConsistency(files));
   const manifest = {
     _: 'DERIVED — written by node tools/manifest.mjs --write in cehinds/AshenSpire-art, never by a hand. One entry per asset id (the runtime `assets/…` path, or a `common` pack path: fonts, licenses/OFL.txt, music/, map-detail/). Each record\'s path is where the file sits in its pack\'s zip.',
     schema: SCHEMA,
@@ -297,7 +333,7 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
     console.log(`manifest: OK — ${manifest.count} ids written to ${MANIFEST_PATH}`);
   } else if (args.includes('--check')) {
     const problems = checkManifest();
-    if (problems.length) { report(problems); console.error('  Fix: node tools/manifest.mjs --write'); process.exit(1); }
+    if (problems.length) { report(problems); console.error('  Fix: if hd/assets/ changed, node tools/mobile-art.mjs first (it re-encodes the light twins); then node tools/manifest.mjs --write'); process.exit(1); }
     console.log(`manifest: OK — ${readManifest().count} ids match the trees`);
   } else {
     console.error('usage: node tools/manifest.mjs --write | --check');

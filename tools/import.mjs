@@ -14,7 +14,8 @@
 // and, as before:
 //   · art/                                     → art/
 //   · assets/equipment/components/             → art/equipment-components/
-//   · CREDITS.md                               → CREDITS.md
+//   · CREDITS.md                               → CREDITS.md, under a preamble that
+//                                                maps the game's paths to this repo's
 // then writes IMPORTED.json naming the source commit.
 //
 // hd/assets/, light/assets/ and common/ are cleared first: after an import they
@@ -38,6 +39,33 @@ import { COMMON_DIR, HIGH_DIR, LICENSE_ID, LIGHT_DIR, LIGHT_PREFIX, canonicalByt
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const LICENSE_SOURCE = 'asset-data/fonts/OFL.txt';
+const CREDITS_PREAMBLE = `<!-- Added by tools/import.mjs in cehinds/AshenSpire-art; everything below the rule is AshenSpire's CREDITS.md, verbatim. -->
+
+> **This is cehinds/AshenSpire's \`CREDITS.md\`, copied verbatim at the commit named in
+> [\`IMPORTED.json\`](IMPORTED.json).** Its paths describe the game repository's layout.
+> In this repository they are:
+>
+> | AshenSpire path | here | release zip |
+> |---|---|---|
+> | \`assets/…\` (art) | \`hd/assets/…\` | \`hd-assets-v<N>.zip\`, as \`assets/…\` |
+> | \`assets-mobile/…\` | \`light/assets/…\` (made by \`tools/mobile-art.mjs\`) | \`light-assets-v<N>.zip\`, as \`assets-mobile/…\` |
+> | \`assets/fonts/…\` | \`common/assets/fonts/…\` | \`common-assets-v<N>.zip\`, as \`assets/fonts/…\` |
+> | \`asset-data/fonts/OFL.txt\` | \`common/licenses/OFL.txt\` | \`common-assets-v<N>.zip\`, as \`licenses/OFL.txt\` |
+> | \`music/<context>/*.mp3\`, \`music/manifest.json\` | \`common/music/…\` | \`common-assets-v<N>.zip\`, as \`music/…\` |
+> | \`music/score/\`, \`music/PROMPTS.md\`, \`music/README.md\` | \`art/music/…\` | none (authoring) |
+> | \`map-detail/…\` | \`common/map-detail/…\` | \`common-assets-v<N>.zip\`, as \`map-detail/…\` |
+> | \`assets/equipment/components/\` | \`art/equipment-components/\` | none (authoring) |
+> | \`art/…\` | \`art/…\` | none (authoring) |
+>
+> \`asset-data/\`, \`src/\`, \`styles/\` and \`tools/\` paths not listed above are the game's and
+> are not in this repository. **The \`[LICENSE](LICENSE)\` links below point at a file that
+> is not here: they mean AshenSpire's \`LICENSE\`**
+> (https://github.com/cehinds/AshenSpire/blob/main/LICENSE). Each release carries this
+> file as \`CREDITS.md\` beside its zips.
+
+---
+
+`;
 
 const src = process.argv[2] && resolve(process.argv[2]);
 if (!src || !existsSync(join(src, 'art-manifest.json'))) {
@@ -93,7 +121,7 @@ for (const [to, buf] of bytes) {
 cpSync(join(src, 'art'), join(ROOT, 'art'), { recursive: true });
 const components = join(src, 'assets/equipment/components');
 if (existsSync(components)) cpSync(components, join(ROOT, 'art/equipment-components'), { recursive: true });
-cpSync(join(src, 'CREDITS.md'), join(ROOT, 'CREDITS.md'));
+writeFileSync(join(ROOT, 'CREDITS.md'), CREDITS_PREAMBLE + readFileSync(join(src, 'CREDITS.md'), 'utf8'));
 const count = (pack) => Object.values(manifest.assets).filter((e) => e[pack]).length;
 writeFileSync(join(ROOT, 'IMPORTED.json'), `${JSON.stringify({
   from: 'cehinds/AshenSpire',

@@ -91,13 +91,18 @@ test('the manifest lists art ids with light and high records and common ids with
   } finally { rmSync(root, { recursive: true, force: true }); }
 });
 
-test('known-bad: the manifest refuses a font among the high art, a stray in common/, a missing twin, a stale row', () => {
+test('known-bad: the manifest refuses a font among the high art, a stray in common/, a missing twin, a stale row, fonts without their licence, and a music manifest that disagrees with the tracks', () => {
   const cases = [
     [(r) => writeFileSync(join(r, 'hd/assets/bg/b.webp'), 'new'), /assets\/bg\/b\.webp: no light twin/],
     [(r) => { mkdirSync(join(r, 'hd/assets/fonts'), { recursive: true }); writeFileSync(join(r, 'hd/assets/fonts/y.woff2'), 'f'); }, /fonts are common ids/],
     [(r) => writeFileSync(join(r, 'common/music/notes.md'), 'x'), /common\/music\/notes\.md: not a file the common pack carries/],
     [(r) => writeFileSync(join(r, 'light/assets/bg/a.webp'), 'changed'), /assets\/bg\/a\.webp: the light file changed/],
     [(r) => writeFileSync(join(r, 'common/music/combat/c.mp3'), 'changed'), /music\/combat\/c\.mp3: the common file changed/],
+
+    [(r) => rmSync(join(r, 'common/licenses/OFL.txt')), /must ship with their licence/],
+    [(r) => writeFileSync(join(r, 'common/music/manifest.json'), '{ "combat": ["combat/c.mp3", "combat/gone.mp3"] }\n'), /names combat\/gone\.mp3, which is not in common\/music/],
+    [(r) => writeFileSync(join(r, 'common/music/combat/extra.mp3'), 'ID3'), /common\/music\/combat\/extra\.mp3: no context in music\/manifest\.json plays it/],
+    [(r) => rmSync(join(r, 'common/music/manifest.json')), /music\/manifest\.json is missing, but 1 track/],
   ];
   for (const [plant, want] of cases) {
     const root = tree();

@@ -1,6 +1,7 @@
 name: release
 # Publishes release hd-assets-v<N>: three zips (hd-, light- and common-assets-v<N>.zip),
-# their sha256 files and art-manifest.json.
+# their sha256 files, art-manifest.json and CREDITS.md; the notes list the
+# three sha256s for the pin.
 #
 # WHEN IT RUNS, by the owner's ruling of 2026-09-26 ("release should run
 # without me asking"): on every push to main that changes what the pack holds
@@ -81,11 +82,24 @@ jobs:
           fi
           N="${TAG#hd-assets-v}"
           files=()
+          pins=""
           for zip in "hd-assets-v$N.zip" "light-assets-v$N.zip" "common-assets-v$N.zip"; do
             test -s "dist/$zip" && test -s "dist/$zip.sha256" || { echo "::error::dist/$zip or its .sha256 is missing"; exit 1; }
             files+=("dist/$zip" "dist/$zip.sha256")
+            pins+="$(cut -d' ' -f1 "dist/$zip.sha256")  $zip"$'\n'
           done
+          # The credits travel with the art: the zips carry none of their own.
+          cp CREDITS.md dist/CREDITS.md
+          {
+            echo "AshenSpire's assets, packed from $GITHUB_SHA: the high tier (hd-assets-v$N.zip), the light tier (light-assets-v$N.zip) and the common pack (common-assets-v$N.zip: fonts, licenses/OFL.txt, music, map tiles), with art-manifest.json listing every id and CREDITS.md giving each asset's source and rights."
+            echo
+            echo "Pin it in AshenSpire's art-release.json (tag $TAG) with these sha256s:"
+            echo
+            echo '```'
+            printf '%s' "$pins"
+            echo '```'
+          } > dist/notes.md
           gh release create "$TAG" \
-            "${files[@]}" dist/art-manifest.json \
+            "${files[@]}" dist/art-manifest.json dist/CREDITS.md \
             --target "$GITHUB_SHA" --title "$TAG" \
-            --notes "AshenSpire's assets, packed from $GITHUB_SHA: the high tier (hd-assets-v$N.zip), the light tier (light-assets-v$N.zip) and the common pack (common-assets-v$N.zip: fonts, licenses/OFL.txt, music, map tiles), with art-manifest.json listing every id. Pin it in AshenSpire's art-release.json with the sha256 of each zip from its .sha256 file."
+            --notes-file dist/notes.md

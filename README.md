@@ -8,6 +8,7 @@ of that repository so its clones and its Git LFS budget do not grow with art
 |---|---|---|
 | `hd/assets/` | the full-resolution runtime art: one file per asset id, at the path the game asks for (`assets/…`) | `high` |
 | `light/assets/` | the light tier: one smaller twin per high file, **generated** from `hd/assets/` by `tools/mobile-art.mjs` (AshenSpire's former `assets-mobile/`) | `light` |
+| `light/.twin-sources.json` | the light tier's provenance: per twin, the high file and policy it was made from. Written only by `tools/mobile-art.mjs`; `--check` fails on a twin made from another high file or policy | — |
 | `common/assets/fonts/` | the 15 interface fonts (SIL OFL) | `common` |
 | `common/licenses/OFL.txt` | the fonts' licence | `common` |
 | `common/music/` | the rendered score: `manifest.json` and one MP3 per track | `common` |
@@ -22,7 +23,8 @@ of that repository so its clones and its Git LFS budget do not grow with art
 
 ## Releases
 
-Each release `hd-assets-v<N>` carries three zips, each with its `.sha256`, and the manifest:
+Each release `hd-assets-v<N>` carries three zips, each with its `.sha256`, the manifest and
+`CREDITS.md`; its notes list the three sha256s:
 
 ```
 hd-assets-v<N>.zip        high tier     art-manifest.json (its rows) + assets/…
@@ -48,9 +50,12 @@ Settings → Display → Art quality → Local high-res.
 ## Changing art
 
 1. A PR here changes `hd/assets/` (or `art/`, `common/` or a tool).
-2. If `hd/assets/` changed: `node tools/mobile-art.mjs` (needs `cwebp` from
-   libwebp) encodes a light twin for each new or changed high file and keeps the
-   rest. Then `node tools/manifest.mjs --write`, and commit all three.
+2. If `hd/assets/` or `tools/mobileart-policy.mjs` changed: `node tools/mobile-art.mjs`
+   (needs `cwebp` from libwebp) encodes a light twin for each new or changed high
+   file, and for each twin a policy change governs, keeps the rest, and updates
+   `light/.twin-sources.json`. Then `node tools/manifest.mjs --write`, and commit
+   them together. (Running `--write` first is harmless: `mobile-art --check`
+   still fails until the twins are re-encoded.)
 3. `pack` CI checks the manifest, the light tier, and that the three packs are
    reproducible and every entry verifies.
 4. When it merges, the **release** workflow runs by itself and publishes
@@ -67,7 +72,7 @@ keep the checkout at `../AshenSpire` (`tools/game.mjs`).
 node --test tests/*.test.mjs        # zip format, manifest and pack known-bads
 node tools/mobile-art.mjs --selftest
 node tools/manifest.mjs --check     # art-manifest.json matches the trees
-node tools/mobile-art.mjs --check   # light/assets/ mirrors hd/assets/ at the policy's sizes
+node tools/mobile-art.mjs --check   # light/assets/ mirrors hd/assets/: sizes, provenance, budget
 node tools/pack.mjs --check         # three reproducible zips, every entry verifies
 node tools/pack.mjs                 # writes dist/{hd,light,common}-assets-v<N>.zip + art-manifest.json
 node tools/import.mjs <AshenSpire>  # re-import every pack's files from a checkout

@@ -1,3 +1,29 @@
+<!-- Added by tools/import.mjs in cehinds/AshenSpire-art; everything below the rule is AshenSpire's CREDITS.md, verbatim. -->
+
+> **This is cehinds/AshenSpire's `CREDITS.md`, copied verbatim at the commit named in
+> [`IMPORTED.json`](IMPORTED.json).** Its paths describe the game repository's layout.
+> In this repository they are:
+>
+> | AshenSpire path | here | release zip |
+> |---|---|---|
+> | `assets/…` (art) | `hd/assets/…` | `hd-assets-v<N>.zip`, as `assets/…` |
+> | `assets-mobile/…` | `light/assets/…` (made by `tools/mobile-art.mjs`) | `light-assets-v<N>.zip`, as `assets-mobile/…` |
+> | `assets/fonts/…` | `common/assets/fonts/…` | `common-assets-v<N>.zip`, as `assets/fonts/…` |
+> | `asset-data/fonts/OFL.txt` | `common/licenses/OFL.txt` | `common-assets-v<N>.zip`, as `licenses/OFL.txt` |
+> | `music/<context>/*.mp3`, `music/manifest.json` | `common/music/…` | `common-assets-v<N>.zip`, as `music/…` |
+> | `music/score/`, `music/PROMPTS.md`, `music/README.md` | `art/music/…` | none (authoring) |
+> | `map-detail/…` | `common/map-detail/…` | `common-assets-v<N>.zip`, as `map-detail/…` |
+> | `assets/equipment/components/` | `art/equipment-components/` | none (authoring) |
+> | `art/…` | `art/…` | none (authoring) |
+>
+> `asset-data/`, `src/`, `styles/` and `tools/` paths not listed above are the game's and
+> are not in this repository. **The `[LICENSE](LICENSE)` links below point at a file that
+> is not here: they mean AshenSpire's `LICENSE`**
+> (https://github.com/cehinds/AshenSpire/blob/main/LICENSE). Each release carries this
+> file as `CREDITS.md` beside its zips.
+
+---
+
 # Credits & Asset Licenses
 
 ## Empty-hand magic animation suites (2026-09-19)
