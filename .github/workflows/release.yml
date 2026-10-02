@@ -1,9 +1,12 @@
 name: release
-# Publishes release hd-assets-v<N>: the zip, its sha256 and the manifest.
+# Publishes release hd-assets-v<N>: three zips (hd-, light- and common-assets-v<N>.zip),
+# their sha256 files, art-manifest.json and CREDITS.md; the notes list the
+# three sha256s for the pin.
 #
 # WHEN IT RUNS, by the owner's ruling of 2026-09-26 ("release should run
 # without me asking"): on every push to main that changes what the pack holds
-# (hd/assets/, the pack or zip tool, or release.json), and by hand
+# (hd/assets/, light/assets/, common/, art-manifest.json, the tools that decide
+# what a pack holds, or release.json), and by hand
 # (Actions → release → Run workflow). Nothing waits for approval.
 #
 # WHICH N. The next unused version: the larger of release.json's version and
@@ -15,8 +18,13 @@ on:
     branches: [main]
     paths:
       - 'hd/assets/**'
+      - 'light/assets/**'
+      - 'common/**'
+      - 'art-manifest.json'
       - 'tools/pack.mjs'
       - 'tools/zip.mjs'
+      - 'tools/manifest.mjs'
+      - 'tools/assetmime.mjs'
       - 'release.json'
   workflow_dispatch:
 permissions:
@@ -52,12 +60,15 @@ jobs:
           latest="${latest:-0}"
           next=$(( latest + 1 > floor ? latest + 1 : floor ))
           echo "release.json floor: $floor; newest tag: v$latest (0 = none); publishing: v$next"
-          # The runner's copy only: the pack names the zip and the manifest from it.
+          # The runner's copy only: the pack names the zips from it.
           printf '{ "version": %s }\n' "$next" > release.json
           echo "TAG=hd-assets-v$next" >> "$GITHUB_ENV"
       - name: Verify, then pack
         run: |
           node --test tests/*.test.mjs
+          node tools/mobile-art.mjs --selftest
+          node tools/manifest.mjs --check
+          node tools/mobile-art.mjs --check
           node tools/pack.mjs --check
           node tools/pack.mjs
       - name: Publish the release
@@ -69,7 +80,26 @@ jobs:
             echo "::error::$TAG already exists; a published tag is never overwritten."
             exit 1
           fi
+          N="${TAG#hd-assets-v}"
+          files=()
+          pins=""
+          for zip in "hd-assets-v$N.zip" "light-assets-v$N.zip" "common-assets-v$N.zip"; do
+            test -s "dist/$zip" && test -s "dist/$zip.sha256" || { echo "::error::dist/$zip or its .sha256 is missing"; exit 1; }
+            files+=("dist/$zip" "dist/$zip.sha256")
+            pins+="$(cut -d' ' -f1 "dist/$zip.sha256")  $zip"$'\n'
+          done
+          # The credits travel with the art: the zips carry none of their own.
+          cp CREDITS.md dist/CREDITS.md
+          {
+            echo "AshenSpire's assets, packed from $GITHUB_SHA: the high tier (hd-assets-v$N.zip), the light tier (light-assets-v$N.zip) and the common pack (common-assets-v$N.zip: fonts, licenses/OFL.txt, music, map tiles), with art-manifest.json listing every id and CREDITS.md giving each asset's source and rights."
+            echo
+            echo "Pin it in AshenSpire's art-release.json (tag $TAG) with these sha256s:"
+            echo
+            echo '```'
+            printf '%s' "$pins"
+            echo '```'
+          } > dist/notes.md
           gh release create "$TAG" \
-            "dist/$TAG.zip" "dist/$TAG.zip.sha256" dist/art-manifest.json \
+            "${files[@]}" dist/art-manifest.json dist/CREDITS.md \
             --target "$GITHUB_SHA" --title "$TAG" \
-            --notes "High-res art for AshenSpire, packed from $GITHUB_SHA. Pin it in AshenSpire's art-release.json with the sha256 in $TAG.zip.sha256."
+            --notes-file dist/notes.md
