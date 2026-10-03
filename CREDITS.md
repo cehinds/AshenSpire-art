@@ -319,6 +319,12 @@ The recorded score is written as code. Each track is a list of notes in `music/s
 
 ## Layered book artwork (2026-10-02)
 
+The 2026-10-03 painted revision adds three blank bindings and eleven engraved
+metal emblems, including a feat emblem. Source and exact built-in OpenAI image
+generation prompts: `art/manual-shop-2026-10-02/painted-v2/`. Runtime:
+`hd/assets/shop/painted/` and generated light twins. Original project-generated
+art; no third-party license claimed.
+
 | Asset path | Source | Rights |
 | --- | --- | --- |
 | hd/assets/shop/ and light/assets/shop/ | Original OpenAI image generation and original Codex-authored SVG layers; see art/manual-shop-2026-10-02/README.md and retained prompts | Project-authored/generated art; no third-party license claimed. |
