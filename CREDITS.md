@@ -316,3 +316,9 @@ third-party license is claimed.
 ## Rendered music score (2026-09-26)
 
 The recorded score is written as code. Each track is a list of notes in `music/score/<id>.mjs`, rendered offline by `node tools/score/render.mjs` on the synthesizer in `tools/score/synth.mjs` into `music/<context>/<id>.mp3`. Every instrument (strings, cello, wordless choir, organ, harp, bells, bowed metal, drones, taiko, frame drum) is synthesized from oscillators and noise: no samples, soundfonts or licensed music, and no AI music model. The two earlier AI-model recordings were removed on the owner's instruction (2026-09-26). No third-party asset licence is claimed.
+
+## Layered book artwork (2026-10-02)
+
+| Asset path | Source | Rights |
+| --- | --- | --- |
+| hd/assets/shop/ and light/assets/shop/ | Original OpenAI image generation and original Codex-authored SVG layers; see art/manual-shop-2026-10-02/README.md and retained prompts | Project-authored/generated art; no third-party license claimed. |
