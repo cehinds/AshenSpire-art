@@ -18,3 +18,6 @@ Original generation prompts and source references are retained in
 `provenance.json` and `layers/provenance.json`. Runtime files are under
 `hd/assets/shop/`; the repository's own mobile-art tool generates their
 light twins and provenance. Existing canonical assets and policies are retained.
+
+To regenerate authored layers, run layers/export.mjs with Sharp and cwebp 1.6.0 available, then run the repository's tools/mobile-art.mjs and tools/manifest.mjs --write to refresh canonical light provenance and the release manifest.
+
