@@ -5609,6 +5609,11 @@
     "ui/flasks/flask-crimson.webp": {"high":"6213059958c97bae1830c611d558e751440878b7067db9ada76400de8d6360d9","twin":"fe57d5316dca1e2f8230e6c78bc69f84f12d8333a3ad081607397b19d68117bb","policy":"9233a330bc431b95"},
     "ui/flasks/flask-ferocity.webp": {"high":"bebf5b6a07459bb3432b98dc3c9fc394a1e998b986294634d30df6d3016976dd","twin":"95daca4f795e167bc5ace55d83f4b0750b7c2730b3d4605aa2a6c6e406f65614","policy":"9233a330bc431b95"},
     "ui/flasks/flask-stone.webp": {"high":"c93b9a67d4822aa201da670026b7aa3524f774436e43008d5a112dc363f89460","twin":"bab338cdd1075be0e054f20eac584ce04d7661c9a9304b25fabcab6fb06e12bb","policy":"9233a330bc431b95"},
-    "ui/flasks/flask-wondrous.webp": {"high":"0c39e9e574caf1972c342977594ad11a3e83aa47f2ebf2ce89b6026553085dfb","twin":"4df619529fb72ad2d3faa7291578cde8d0c7cdea5131cec3439eabfe812f4d67","policy":"9233a330bc431b95"}
+    "ui/flasks/flask-wondrous.webp": {"high":"0c39e9e574caf1972c342977594ad11a3e83aa47f2ebf2ce89b6026553085dfb","twin":"4df619529fb72ad2d3faa7291578cde8d0c7cdea5131cec3439eabfe812f4d67","policy":"9233a330bc431b95"},
+    "ui/stamina-orb/diamond.webp": {"high":"c4c7cc1d09447032890692b5542949d92f9d71720db52de4d43f01e53ab9be81","twin":"1490bfcbf7f2cb288daeca405dfb3b4234c76b84907214c4dd22ab2aaca9cbcd","policy":"9233a330bc431b95"},
+    "ui/stamina-orb/frame.webp": {"high":"e51c2b0b21e6c4583daf5bd512c01fc53b9a196adda6e175a80098dc26f6a2b2","twin":"b069329b134ec6e43598b3f36aaf9616d4d6353e9df717b6b888d2b8ab980dff","policy":"9233a330bc431b95"},
+    "ui/stamina-orb/orb.webp": {"high":"1d94d1b86fa88f624deba92b3a612ebda0b52cd3423a79275314e1052d465389","twin":"ace64b7a1fbe151614bcd10c1d87f1d3aa18bcbc10b521196083712ff010d058","policy":"9233a330bc431b95"},
+    "ui/stamina-orb/sigil.webp": {"high":"192fa0160d14cdfd2253994aee9ed3126009609a2509b1dc056c21e62c65d75d","twin":"9134e7fc2f493678b86327b2c4f7888b7ca82462adc953758c8b7ab3b0d63ff9","policy":"9233a330bc431b95"},
+    "ui/stamina-orb/spent.webp": {"high":"bcd2254399d537cf8792b8b7fd2b92af49512899bd899cfbecc8b4ce7045c24e","twin":"19c4c405d18e4018fda00ca6172f3188a73f0843959b78660ea3ecfbba5097a6","policy":"9233a330bc431b95"}
   }
 }

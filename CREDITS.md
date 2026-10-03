@@ -338,3 +338,7 @@ art; no third-party license claimed.
 | Asset path | Source | Rights |
 | --- | --- | --- |
 | hd/assets/shop/ and light/assets/shop/ | Original OpenAI image generation and original Codex-authored SVG layers; see art/manual-shop-2026-10-02/README.md and retained prompts | Project-authored/generated art; no third-party license claimed. |
+
+### Stamina orb and mana harness (2026-10-03)
+
+`art/ui/stamina-orb/` and `hd/assets/ui/stamina-orb/`: original AI-generated artwork made with OpenAI imagegen for AshenSpire, directed and approved by the project owner. Separate transparent metal frame, emerald orb, green action sigil, sapphire mana diamond and dim spent diamond. Prompts, source masters and the approved layout are preserved with the source art. Runtime WebP exports and generated light twins retain their provenance.
