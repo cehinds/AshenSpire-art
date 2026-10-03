@@ -322,4 +322,3 @@ The recorded score is written as code. Each track is a list of notes in `music/s
 | Asset path | Source | Rights |
 | --- | --- | --- |
 | hd/assets/shop/ and light/assets/shop/ | Original OpenAI image generation and original Codex-authored SVG layers; see art/manual-shop-2026-10-02/README.md and retained prompts | Project-authored/generated art; no third-party license claimed. |
-
