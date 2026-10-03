@@ -1,5 +1,15 @@
 <!-- Added by tools/import.mjs in cehinds/AshenSpire-art; everything below the rule is AshenSpire's CREDITS.md, verbatim. -->
 
+**Art-repository additions since the imported game commit (2026-10-03):**
+77 original relic, flask, event, and Road Warden paintings were generated for
+AshenSpire with OpenAI's built-in image generation. Their PNG masters and
+production notes are in `art/{relics,flasks,events,portraits}-2026-10-02/` and
+`art/coverage-2026-10-02/`; runtime exports are in `hd/assets/` with light
+twins in `light/assets/`. Seven card paintings and their exact prompts are in
+`art/card-illustrations-2026-10-01/`; 56 reusable SVG card motifs were produced
+for the game without third-party artwork. No third-party asset license is
+claimed for this batch. The imported game credits below remain verbatim.
+
 > **This is cehinds/AshenSpire's `CREDITS.md`, copied verbatim at the commit named in
 > [`IMPORTED.json`](IMPORTED.json).** Its paths describe the game repository's layout.
 > In this repository they are:
