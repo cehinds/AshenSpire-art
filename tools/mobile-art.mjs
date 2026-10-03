@@ -2,7 +2,8 @@
 // tools/mobile-art.mjs — hd/assets/ → light/assets/, and the proof the light
 // tree is complete. Moved from cehinds/AshenSpire (where it made assets-mobile/
 // from assets/; docs/EXTERNAL-ASSETS-PLAN.md step 9). The policy is
-// tools/mobileart-policy.mjs, kept byte-identical to the game's copy.
+// tools/mobileart-policy.mjs, kept aligned with the game's copy (the art repo
+// lists the same sprite families locally instead of importing game runtime code).
 //
 //   node tools/mobile-art.mjs            bring light/assets/ up to date: encode a
 //                                        twin for every high file that is new or
