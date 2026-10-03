@@ -376,6 +376,7 @@ function selftest() {
   const fonts = resolve(dir, 'fonts');
   const put = (base, rel, bytes) => { const p = resolve(base, rel); mkdirSync(dirname(p), { recursive: true }); writeFileSync(p, bytes); };
   const big = twinDimensions({ width: 512, height: 512 }, POLICY);
+  const small = twinDimensions({ width: 200, height: 100 }, policyFor('poses/small.webp', POLICY));
   const backdrop = twinDimensions({ width: 1536, height: 1024 }, policyFor('environments/', POLICY));
   const good = () => {
     for (const d of [src, twin, fonts]) rmSync(d, { recursive: true, force: true });
@@ -387,7 +388,7 @@ function selftest() {
     put(src, 'animations/README.md', Buffer.from('not art\n'));                 // no MIME: no twin wanted
     put(twin, 'animations/x/ATK-01.webp', fakeWebp(big.width, big.height, 800));
     put(twin, 'environments/wide.webp', fakeWebp(backdrop.width, backdrop.height, 2000));
-    put(twin, 'poses/small.webp', fakeWebp(200, 100, 700));
+    put(twin, 'poses/small.webp', fakeWebp(small.width, small.height, 700));
     put(twin, 'bg/mask.svg', Buffer.from('<svg/>\n'));
     put(fonts, 'a.woff2', Buffer.alloc(300));
     // The provenance record, as generate() writes it.
@@ -395,14 +396,14 @@ function selftest() {
     for (const { rel, abs } of runtimeArt(src)) sources[rel] = sourceRow(abs, resolve(twin, rel), rel, POLICY);
   };
   let sources = {};
-  const stricter = { ...POLICY, quality: POLICY.quality + 1 };
+  const stricter = { ...POLICY, overrides: POLICY.overrides.map((row, i) => i === 0 ? { ...row, quality: row.quality + 1 } : row) };
   const plants = [
     ['control: a complete twin tree passes', () => {}, null],
     ['a twin is missing', () => rmSync(resolve(twin, 'poses/small.webp')), /missing twin: light\/assets\/poses\/small\.webp/],
     ['a twin nothing sources', () => put(twin, 'poses/ghost.webp', fakeWebp(10, 10)), /stray file .*light\/assets\/poses\/ghost\.webp/],
     ['a big source was not shrunk', () => put(twin, 'animations/x/ATK-01.webp', fakeWebp(512, 512, 800)), new RegExp(`twin is 512×512, the policy wants ${big.width}×${big.height}`)],
     ['a backdrop held to the general rule, not its override', () => put(twin, 'environments/wide.webp', fakeWebp(480, 320, 2000)), new RegExp(`twin is 480×320, the policy wants ${backdrop.width}×${backdrop.height}`)],
-    ['a small source was shrunk anyway', () => put(twin, 'poses/small.webp', fakeWebp(100, 50, 700)), /twin is 100×50, the policy wants 200×100/],
+    ['a cropped sprite escaped uniform shrinking', () => put(twin, 'poses/small.webp', fakeWebp(200, 100, 700)), new RegExp(`twin is 200×100, the policy wants ${small.width}×${small.height}`)],
     ['a twin grew past its source', () => put(twin, 'poses/small.webp', fakeWebp(200, 100, 901)), /larger than its source \(901 > 900 bytes\)/],
     ['a verbatim copy that is not verbatim', () => put(twin, 'bg/mask.svg', Buffer.from('<svg id="x"/>\n')), /differs from a source the policy copies verbatim/],
     ['a twin that is not a WebP', () => put(twin, 'poses/small.webp', Buffer.from('not a webp at all, but long enough to read')), /twin is not a WebP/],

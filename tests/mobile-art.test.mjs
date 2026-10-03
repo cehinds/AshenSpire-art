@@ -7,7 +7,7 @@ import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, 
 import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { POLICY } from '../tools/mobileart-policy.mjs';
+import { POLICY, policyFor, twinDimensions } from '../tools/mobileart-policy.mjs';
 import { OUT_MARKER, guardOut, keepable, policyDigest, readSources, runtimeArt, serializeSources, sourceRow, verify } from '../tools/mobile-art.mjs';
 import { buildManifest, checkManifest, serialize } from '../tools/manifest.mjs';
 
@@ -32,7 +32,8 @@ function repo() {
   const root = tmp();
   const put = (rel, data) => { mkdirSync(dirname(join(root, rel)), { recursive: true }); writeFileSync(join(root, rel), data); };
   put('hd/assets/poses/x.webp', fakeWebp(200, 100, 900, 1));       // "the reaver"
-  put('light/assets/poses/x.webp', fakeWebp(200, 100, 700, 1));
+  const small = twinDimensions({ width: 200, height: 100 }, policyFor('poses/x.webp'));
+  put('light/assets/poses/x.webp', fakeWebp(small.width, small.height, 700, 1));
   const twins = {};
   for (const { rel, abs } of runtimeArt(join(root, 'hd/assets'))) twins[rel] = sourceRow(abs, join(root, 'light/assets', rel), rel);
   put('light/.twin-sources.json', serializeSources(twins));
@@ -70,12 +71,24 @@ test('known-bad (B1): manifest --write before mobile-art no longer launders a st
 test('known-bad (N1): a policy change invalidates the twins it governs, and only those', () => {
   const { root } = repo();
   try {
-    const stricter = { ...POLICY, quality: POLICY.quality + 5 };
+    const stricter = { ...POLICY, overrides: POLICY.overrides.map((row, i) => i === 0 ? { ...row, quality: row.quality + 5 } : row) };
     assert.notEqual(policyDigest('poses/x.webp', stricter), policyDigest('poses/x.webp'));
     assert.equal(policyDigest('environments/y.webp', { ...POLICY, quality: 1 }), policyDigest('environments/y.webp'), 'an override path is governed by its override');
     assert.match(check(root, { policy: stricter }).join('\n'), /made under another policy.*poses\/x\.webp/);
     assert.equal(keepable(runtimeArt(join(root, 'hd/assets')), join(root, 'light/assets'), readSources(join(root, 'light/.twin-sources.json')), stricter).size, 0);
   } finally { rmSync(root, { recursive: true, force: true }); }
+});
+
+test('all sprite families, bow frames and cropped poses use the same reduction', () => {
+  const families = ['animations', 'sprites', 'poses', 'painted-outfits', 'readiness-poses', 'enemy-poses', 'enemy-states', 'defeated-poses', 'enemies-unity', 'enemies-expansion', 'combat-effects', 'pose-effects', 'equipment'];
+  for (const family of families) {
+    const policy = policyFor(`${family}/frame.webp`);
+    assert.deepEqual([policy.scaleFrom, policy.scale, policy.quality, policy.alphaQuality], [0, 0.3125, 35, 40]);
+    assert.deepEqual(twinDimensions({ width: 200, height: 100 }, policy), { width: 63, height: 31 });
+  }
+  assert.deepEqual(twinDimensions({ width: 640, height: 640 }, policyFor('animations/bow/herald/BOW-01.webp')), { width: 200, height: 200 });
+  assert.deepEqual(twinDimensions({ width: 1, height: 1 }, policyFor('poses/tiny.webp')), { width: 1, height: 1 });
+  assert.equal(policyFor('environments/wide.webp').scale, 0.4);
 });
 
 test('known-bad: a twin edited by hand, a missing row and a missing record are each red', () => {

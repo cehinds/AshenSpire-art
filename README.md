@@ -68,6 +68,14 @@ The score (`art/music/`, `tools/score/`) and the map tiles
 music beds, its tile policy) from an AshenSpire checkout: set `ASHENSPIRE_DIR`, or
 keep the checkout at `../AshenSpire` (`tools/game.mjs`).
 
+The light sprite policy applies the same 5/16 raster scale and quality 35 /
+alpha quality 40 to characters, enemies, poses, weapon frames and effects,
+including small cropped sprites and bow frames. The game keeps animation
+sequences, timing, display size and registration when it selects these twins;
+reduced motion remains a separate setting. Backdrops retain their existing
+policy. Keep the sprite family list in `tools/mobileart-policy.mjs` aligned
+with AshenSpire's `src/ui/spriteAssets.js`.
+
 ```
 node --test tests/*.test.mjs        # zip format, manifest and pack known-bads
 node tools/mobile-art.mjs --selftest
