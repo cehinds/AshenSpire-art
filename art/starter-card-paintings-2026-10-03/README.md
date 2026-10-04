@@ -8,4 +8,6 @@ The briefs follow each card's authored flavor in `src/content/cards/`: the Obser
 
 `prompts.json` preserves the exact prompts and source identities. The PNG masters are unchanged generator outputs. `exports.json` records their hashes and high-tier derivative hashes.
 
-Run `node art/starter-card-paintings-2026-10-03/export.mjs` with libwebp 1.6.0 on PATH to export 512px and 1024px-wide WebPs, preserving the 3:2 composition. Then run `node tools/mobile-art.mjs` and `node tools/manifest.mjs --write` for the light twins and manifest. The game resolves these six IDs through its existing `playingCardArtwork` mapping and `assetUrl`.
+Run `node art/starter-card-paintings-2026-10-03/export.mjs` with libwebp 1.6.0 on PATH to export 512px and 1024px-wide WebPs, preserving each source's aspect ratio. Then run `node tools/mobile-art.mjs` and `node tools/manifest.mjs --write` for the light twins and manifest. The game resolves these six IDs through its existing `playingCardArtwork` mapping and `assetUrl`.
+
+The owner approved the Starstone Pebble second pass for integration. Its square master and exact edit prompt live in `revisions/starstone-pebble-v2/`; `prior-prompt.json` and the unchanged original PNG retain the first pass. The second pass removes the blank parchment and replaces the large crystal shard with a small rounded meteoric stone under concentrated cold light. The square framing fills the card illustration well. The exporter now selects that approved master for the existing Starstone Pebble asset IDs.
