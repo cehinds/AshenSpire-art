@@ -68,12 +68,13 @@ The score (`art/music/`, `tools/score/`) and the map tiles
 music beds, its tile policy) from an AshenSpire checkout: set `ASHENSPIRE_DIR`, or
 keep the checkout at `../AshenSpire` (`tools/game.mjs`).
 
-The light sprite policy applies the same 5/16 raster scale and quality 35 /
-alpha quality 40 to characters, enemies, poses, weapon frames and effects,
-including small cropped sprites and bow frames. The game keeps animation
-sequences, timing, display size and registration when it selects these twins;
-reduced motion remains a separate setting. Backdrops retain their existing
-policy. Keep the sprite family list in `tools/mobileart-policy.mjs` aligned
+The light policy (2026-10-04) caps each image's longer side: 480 px for
+characters, enemies, poses, weapon frames and effects (quality 32, alpha
+quality 25), 720 px for everything else (quality 50); smaller images keep their
+size. The game keeps animation sequences, timing, display size and registration
+when it selects these twins; reduced motion remains a separate setting. The light
+tree inlines to under 69 MB, so the light single file stays under 80 MB.
+Keep the sprite family list in `tools/mobileart-policy.mjs` aligned
 with AshenSpire's `src/ui/spriteAssets.js`.
 
 ```
