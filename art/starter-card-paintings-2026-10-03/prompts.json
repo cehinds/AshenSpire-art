@@ -1,0 +1,34 @@
+{
+  "created": "2026-10-03",
+  "generator": "OpenAI built-in image_gen",
+  "useCase": "stylized-concept",
+  "inventory": {
+    "gameCommit": "7618f354e",
+    "cards": 219,
+    "paintedCardIdsBefore": 4,
+    "paintedProfilesBefore": 3
+  },
+  "assets": [
+    {
+      "cardId": "starstonePebble",
+      "slug": "starstone-pebble",
+      "sourceFile": "starstone-pebble.png",
+      "generatedFile": "exec-e1e9a2e4-6e49-48fc-951c-096bd1c1a271.png",
+      "prompt": "Use case: stylized-concept. Asset type: AshenSpire fantasy deckbuilding game card illustration, landscape 3:2, no card frame. Primary request: Starstone Pebble. An angular blue-white chip of dark starstone hovers just above a worn leather-gloved apprentice's outstretched palm in a ruined astronomical stone gallery. A short restrained streak of cold starlight gathers at the chip as if about to be cast. Faint abandoned brass lens rings and ash-grey masonry in the background. Style: rich hand-painted dark fantasy illustration, weathered tactile surfaces, confident visible brushwork, grounded medieval materials, restrained ash-charcoal and tarnished bronze palette with pale icy blue focal light. Strong compact silhouette and readable single focal stone, useful at small card size. Keep important shapes inside the central 70 percent for flexible card crops. Moody directional illumination, deep but readable shadows, atmospheric depth; frost on a blank paper label near the bottom, never on the stone. No lettering, numbers, runes, card border, logo, watermark, modern objects, neon, UI, or reference to other franchises."
+    },
+    {
+      "cardId": "urgentHeal",
+      "slug": "urgent-heal",
+      "sourceFile": "urgent-heal.png",
+      "generatedFile": "exec-33ed2d43-db0f-45d7-9ce3-7494c18f6c45.png",
+      "prompt": "Use case: stylized-concept. Asset type: AshenSpire fantasy deckbuilding game card illustration, landscape 3:2, no frame. Primary request: Urgent Heal, a quiet rite of the Furnace Chapel. Close view of a soot-darkened robed healer's two anatomically natural hands quickly wrapping an ivory linen bandage around their own forearm, below a small original abstract ember brand which remains uncovered near the elbow. A restrained warm amber glow from the brand and between the linen folds conveys healing, no graphic wound or blood. Weathered charcoal wool sleeves, tarnished brass cuff, a blurred ruined stone chapel and a single dim censer behind. Style: rich hand-painted dark fantasy illustration, confident visible brushwork, tactile aged materials, ash-charcoal, parchment and muted burgundy with a warm amber focal light, deep readable shadows. Strong simple diagonal composition, central bandaged forearm dominant and readable at small card size, key subject within central 70 percent for card crops. No writing, glyph text, letters, numbers, card border, UI, logo, watermark, modern medical equipment, neon, crosses or borrowed franchise symbols."
+    },
+    {
+      "cardId": "ambush",
+      "slug": "ambush",
+      "sourceFile": "ambush.png",
+      "generatedFile": "exec-97c3566b-f1f9-4e3f-80c0-46b082d8b98f.png",
+      "prompt": "Use case: stylized-concept. Asset type: AshenSpire fantasy deckbuilding game card illustration, landscape 3:2, no frame. Primary request: Ambush, the Rogue's signature opening of the frozen docks. A single hooded rogue in worn charcoal leather crouches beneath an ancient stone bridge beside frozen river docks, emerging quietly from shadow with a short plain iron dagger held close in one gloved hand. Face mostly hidden naturally by hood. The dagger catches one narrow cold silver glint. Background has icy timber pilings and the pale stone arches of a fallen river city, with a very small distant warm lantern high on the walkway. No victim, no actual stabbing, no blood. Style: rich hand-painted dark fantasy illustration, weathered tactile surfaces and visible painterly brushwork, muted slate blue, ash-grey, aged brown leather and tarnished metal, restrained ember accent. Dynamic low three-quarter composition, readable compact central silhouette, upper body and dagger occupy central 70 percent, dagger fully visible, clear at small card size, deep but readable shadows and atmospheric depth. No lettering, symbols, numbers, card border, UI, watermark, logo, modern objects, neon or recognizable franchise designs."
+    }
+  ]
+}

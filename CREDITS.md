@@ -352,3 +352,7 @@ art; no third-party license claimed.
 `hd/assets/player-polish/` contains project-authored SVG ornaments and original OpenAI-generated scene paintings from the approved player-polish kit. Source: https://github.com/cehinds/AshenSpire/tree/a99aa51b91b1f824dda315feb0256993cbb6d743/docs/design/player-polish-asset-kit-2026-10-02 and the owner-approved JavaScript prototype https://github.com/cehinds/ashenedSpire-js. Original export provenance is retained in `art/player-polish-runtime/exports.json`.
 
 `art/illustrated-card-components/` preserves the owner's editable Card Studio PNG masters; lossless runtime derivatives are under `hd/assets/card-components/` and `hd/assets/ui-components/`. Export hashes are retained beside the masters. Original project-generated art and project-authored layers; no third-party licence is claimed. Light twins are generated with this repository's encoder and policy.
+
+## Starter card paintings (2026-10-03)
+
+Original Starstone Pebble, Urgent Heal, and Ambush paintings made with OpenAI's built-in image generator for AshenSpire. Exact prompts, unchanged PNG masters, export recipe and hash receipts are in art/starter-card-paintings-2026-10-03/. Runtime assets/cards/{starstone-pebble,urgent-heal,ambush}-{512,1024}.webp and their light twins share this provenance. No third-party artwork was downloaded and no third-party license is claimed.
