@@ -4,18 +4,18 @@
   "assets": [
     {
       "cardId": "starstonePebble",
-      "source": "starstone-pebble.png",
-      "sourceSha256": "20a3a3130af58125e482210179f7242b5836e079f3bf30e5cc225a480e5ad643",
+      "source": "revisions/starstone-pebble-v2/starstone-pebble-v2.png",
+      "sourceSha256": "aca7754a0018b64090cfc4c638d6df7f663f03b347e4509379581e4a28b23e50",
       "exports": [
         {
           "id": "assets/cards/starstone-pebble-512.webp",
-          "bytes": 39828,
-          "sha256": "79dc2d877769bd86c98e5ade04effd445ae73de73cb2ce269beb32c38cb59bf3"
+          "bytes": 48364,
+          "sha256": "41a43c15cdcfc0cf04a883aadb156b8d6b2839fcbbf4b944e2f681517667060f"
         },
         {
           "id": "assets/cards/starstone-pebble-1024.webp",
-          "bytes": 112716,
-          "sha256": "1cf71bccd1947b90550c4fcc4f816f3647ea6f163325a171126b4ecfa127bdc0"
+          "bytes": 129776,
+          "sha256": "503b069bf2d1da5cb1cf189f65d22458c571b5d7c15c3bc450ee256140639d0d"
         }
       ]
     },
