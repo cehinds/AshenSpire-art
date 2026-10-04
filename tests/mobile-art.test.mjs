@@ -73,22 +73,24 @@ test('known-bad (N1): a policy change invalidates the twins it governs, and only
   try {
     const stricter = { ...POLICY, overrides: POLICY.overrides.map((row, i) => i === 0 ? { ...row, quality: row.quality + 5 } : row) };
     assert.notEqual(policyDigest('poses/x.webp', stricter), policyDigest('poses/x.webp'));
-    assert.equal(policyDigest('environments/y.webp', { ...POLICY, quality: 1 }), policyDigest('environments/y.webp'), 'an override path is governed by its override');
+    assert.equal(policyDigest('poses/y.webp', { ...POLICY, quality: 1 }), policyDigest('poses/y.webp'), 'an override path is governed by its override');
     assert.match(check(root, { policy: stricter }).join('\n'), /made under another policy.*poses\/x\.webp/);
     assert.equal(keepable(runtimeArt(join(root, 'hd/assets')), join(root, 'light/assets'), readSources(join(root, 'light/.twin-sources.json')), stricter).size, 0);
   } finally { rmSync(root, { recursive: true, force: true }); }
 });
 
-test('all sprite families, bow frames and cropped poses use the same reduction', () => {
+test('all sprite families, bow frames and cropped poses share the 480 px ceiling; the rest 720 px', () => {
   const families = ['animations', 'sprites', 'poses', 'painted-outfits', 'readiness-poses', 'enemy-poses', 'enemy-states', 'defeated-poses', 'enemies-unity', 'enemies-expansion', 'combat-effects', 'pose-effects', 'equipment'];
   for (const family of families) {
     const policy = policyFor(`${family}/frame.webp`);
-    assert.deepEqual([policy.scaleFrom, policy.scale, policy.quality, policy.alphaQuality], [0, 0.3125, 35, 40]);
-    assert.deepEqual(twinDimensions({ width: 200, height: 100 }, policy), { width: 63, height: 31 });
+    assert.deepEqual([policy.maxEdge, policy.quality, policy.alphaQuality], [480, 32, 25]);
+    assert.deepEqual(twinDimensions({ width: 200, height: 100 }, policy), { width: 200, height: 100 }, 'under 480 px keeps its size');
+    assert.deepEqual(twinDimensions({ width: 512, height: 256 }, policy), { width: 480, height: 240 });
   }
-  assert.deepEqual(twinDimensions({ width: 640, height: 640 }, policyFor('animations/bow/herald/BOW-01.webp')), { width: 200, height: 200 });
+  assert.deepEqual(twinDimensions({ width: 640, height: 640 }, policyFor('animations/bow/herald/BOW-01.webp')), { width: 480, height: 480 });
   assert.deepEqual(twinDimensions({ width: 1, height: 1 }, policyFor('poses/tiny.webp')), { width: 1, height: 1 });
-  assert.equal(policyFor('environments/wide.webp').scale, 0.4);
+  assert.equal(policyFor('environments/wide.webp').maxEdge, 720);
+  assert.deepEqual(twinDimensions({ width: 1536, height: 1024 }, policyFor('environments/wide.webp')), { width: 720, height: 480 });
 });
 
 test('known-bad: a twin edited by hand, a missing row and a missing record are each red', () => {
