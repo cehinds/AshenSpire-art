@@ -71,12 +71,21 @@ test('known-bad (B1): manifest --write before mobile-art no longer launders a st
 test('known-bad (N1): a policy change invalidates the twins it governs, and only those', () => {
   const { root } = repo();
   try {
-    const stricter = { ...POLICY, overrides: POLICY.overrides.map((row, i) => i === 0 ? { ...row, quality: row.quality + 5 } : row) };
+    const stricter = { ...POLICY, overrides: POLICY.overrides.map(row => row.prefixes.includes('poses/') ? { ...row, quality: row.quality + 5 } : row) };
     assert.notEqual(policyDigest('poses/x.webp', stricter), policyDigest('poses/x.webp'));
     assert.equal(policyDigest('poses/y.webp', { ...POLICY, quality: 1 }), policyDigest('poses/y.webp'), 'an override path is governed by its override');
     assert.match(check(root, { policy: stricter }).join('\n'), /made under another policy.*poses\/x\.webp/);
     assert.equal(keepable(runtimeArt(join(root, 'hd/assets')), join(root, 'light/assets'), readSources(join(root, 'light/.twin-sources.json')), stricter).size, 0);
   } finally { rmSync(root, { recursive: true, force: true }); }
+});
+
+test('new card compression stays isolated from sprites and existing card artwork', () => {
+  assert.deepEqual([policyFor('cards/extended/card-strike-1024.webp').maxEdge, policyFor('cards/extended/card-strike-1024.webp').quality], [720,44]);
+  assert.equal(policyFor('cards/slashing-strike-512.webp').quality,50);
+  const changed={...POLICY,overrides:POLICY.overrides.map(row=>row.prefixes.includes('cards/extended/')?{...row,quality:row.quality+1}:row)};
+  assert.notEqual(policyDigest('cards/extended/card-strike-1024.webp',changed),policyDigest('cards/extended/card-strike-1024.webp'));
+  assert.equal(policyDigest('poses/x.webp',changed),policyDigest('poses/x.webp'));
+  assert.equal(policyDigest('cards/slashing-strike-512.webp',changed),policyDigest('cards/slashing-strike-512.webp'));
 });
 
 test('all sprite families, bow frames and cropped poses share the 480 px ceiling; the rest 720 px', () => {
