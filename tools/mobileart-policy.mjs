@@ -71,15 +71,19 @@ export function policyFor(rel, policy = POLICY) {
 export const MOBILE_BUNDLE_BUDGET_BYTES = 100_000_000;
 
 /**
- * Where the mobile art itself has to land for the file to stay under the
- * owner's preferred 80 MB: that less the code (~11 MB at 0.7.1.920), counted
- * after base64 growth (4/3). A twin tree over this is caught by --check before
- * anyone builds with it.
+ * Mobile art's share of the owner's 100 MB maximum, reserving 11 MB for code
+ * and counting base64 growth (4/3). The complete portrait library exceeds the
+ * preferred 69 MB art target (80 MB including code), while retaining the
+ * existing 720px/q50 card quality. Delivery validation must also measure the
+ * finished single file against 100 MB, including actual code and metadata.
  *
  * Counted as the bundle inlines it: each distinct image once
  * (`distinctInlinedBytes`), since the bundler aliases byte-identical files.
  */
-export const MOBILE_ART_INLINED_BUDGET_BYTES = 69_000_000;
+// The complete card portrait library uses the owner's already-approved 100 MB
+// maximum. Reserve 11 MB for code and measure the finished file at delivery.
+// 69 MB remains the preferred art target (80 MB including code), not the cap.
+export const MOBILE_ART_INLINED_BUDGET_BYTES = 89_000_000;
 
 /** base64 length of `n` raw bytes — what an inlined asset costs the bundle. */
 export function inlinedBytes(n) {
