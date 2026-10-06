@@ -45,6 +45,9 @@ export const POLICY = Object.freeze({
   alphaQuality: 50,
   // First match wins.
   overrides: Object.freeze([
+    // Full portrait cards retain 720px resolution; a small compression change
+    // keeps the complete roster inside the owner's 100 MB download maximum.
+    Object.freeze({ prefixes: Object.freeze(['cards/extended/']), maxEdge: 720, quality: 44, alphaQuality: 50 }),
     // Every figure, frame and effect uses the same reduction, including small
     // cropped poses. Registration and playback timing remain in native units.
     Object.freeze({ prefixes: Object.freeze(SPRITE_ASSET_FAMILIES.map(family => `${family}/`)), maxEdge: 480, quality: 32, alphaQuality: 25 }),
@@ -71,19 +74,19 @@ export function policyFor(rel, policy = POLICY) {
 export const MOBILE_BUNDLE_BUDGET_BYTES = 100_000_000;
 
 /**
- * Mobile art's share of the owner's 100 MB maximum, reserving 11 MB for code
+ * Mobile art's share of the owner's 100 MB maximum, reserving 14.2 MB for code
  * and counting base64 growth (4/3). The complete portrait library exceeds the
  * preferred 69 MB art target (80 MB including code), while retaining the
- * existing 720px/q50 card quality. Delivery validation must also measure the
+ * 720px card resolution. Delivery validation must also measure the
  * finished single file against 100 MB, including actual code and metadata.
  *
  * Counted as the bundle inlines it: each distinct image once
  * (`distinctInlinedBytes`), since the bundler aliases byte-identical files.
  */
 // The complete card portrait library uses the owner's already-approved 100 MB
-// maximum. Reserve 11 MB for code and measure the finished file at delivery.
+// maximum. Reserve 14.2 MB for code and measure the finished file at delivery.
 // 69 MB remains the preferred art target (80 MB including code), not the cap.
-export const MOBILE_ART_INLINED_BUDGET_BYTES = 89_000_000;
+export const MOBILE_ART_INLINED_BUDGET_BYTES = 85_800_000;
 
 /** base64 length of `n` raw bytes — what an inlined asset costs the bundle. */
 export function inlinedBytes(n) {
