@@ -397,7 +397,7 @@ function selftest() {
     for (const { rel, abs } of runtimeArt(src)) sources[rel] = sourceRow(abs, resolve(twin, rel), rel, POLICY);
   };
   let sources = {};
-  const stricter = { ...POLICY, overrides: POLICY.overrides.map((row, i) => i === 0 ? { ...row, quality: row.quality + 1 } : row) };
+  const stricter = { ...POLICY, overrides: POLICY.overrides.map(row => row.prefixes.includes('poses/') ? { ...row, quality: row.quality + 1 } : row) };
   const plants = [
     ['control: a complete twin tree passes', () => {}, null],
     ['a twin is missing', () => rmSync(resolve(twin, 'poses/small.webp')), /missing twin: light\/assets\/poses\/small\.webp/],
