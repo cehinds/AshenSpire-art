@@ -96,7 +96,7 @@ export function policyDigest(rel, policy = POLICY) {
   const p = policyFor(rel, policy);
   const webp = extname(rel).toLowerCase() === '.webp';
   const rule = webp
-    ? { encoder: ENCODER, maxEdge: p.maxEdge, quality: p.quality, alphaQuality: p.alphaQuality }
+    ? { encoder: ENCODER, maxEdge: p.maxEdge, maxHeight: p.maxHeight, quality: p.quality, alphaQuality: p.alphaQuality }
     : { encoder: ENCODER, copy: true };
   return sha256(Buffer.from(JSON.stringify(rule), 'utf8')).slice(0, 16);
 }
@@ -333,7 +333,8 @@ async function generate(srcDir, twinDir, { all = false, out = false, policy = PO
   const todo = wanted.filter((w) => !keep.has(w.rel));
   let next = 0;
   let done = 0;
-  const WORKERS = 4;
+  // Independent single-threaded encoders retain deterministic file bytes.
+  const WORKERS = 8;
   const worker = async () => {
     while (next < todo.length) {
       const item = todo[next++];

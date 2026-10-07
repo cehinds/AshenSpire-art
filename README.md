@@ -68,12 +68,22 @@ The score (`art/music/`, `tools/score/`) and the map tiles
 music beds, its tile policy) from an AshenSpire checkout: set `ASHENSPIRE_DIR`, or
 keep the checkout at `../AshenSpire` (`tools/game.mjs`).
 
-The light policy (2026-10-04) caps each image's longer side: 480 px for
-characters, enemies, poses, weapon frames and effects (quality 32, alpha
-quality 25), 720 px for everything else (quality 50); smaller images keep their
-size. The game keeps animation sequences, timing, display size and registration
-when it selects these twins; reduced motion remains a separate setting. The light
-tree inlines to under 69 MB, so the light single file stays under 80 MB.
+The player export policy caps sprites, animation frames, equipment and effects
+at 480px on the longest edge (quality 12, alpha quality 25). Maps, backgrounds,
+prologue art and full-screen scenes fit inside 1280×720 (quality 78, alpha 80).
+The five two-by-two combat atlases budget up to 1080×720 per scene; their native
+768×512 cells remain native. Cards and other raster UI art retain a 720px
+longest-edge ceiling and their category-specific compression. Small originals
+are never enlarged. Vector viewBoxes remain coordinate systems.
+
+Keep original authoring masters. Re-encode delivered light twins with the tool
+so source hashes and height/size policies stay in their provenance records.
+`tools/map-detail-build.mjs --fallback-only` regenerates the 720p base maps from
+the original paintings while preserving native detail tiles and MAP_ART.
+Animation sequences, timing, display size and registration stay unchanged;
+reduced motion is a separate setting. Measure the full tree and finished game:
+the single-file maximum is 100 MB, with 80 MB preferred. Do not claim a policy
+fits from sample files alone.
 Keep the sprite family list in `tools/mobileart-policy.mjs` aligned
 with AshenSpire's `src/ui/spriteAssets.js`.
 
