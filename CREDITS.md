@@ -1,3 +1,7 @@
+## Molten River Blight meter (2026-10-08)
+
+Original material generated with OpenAI image generation from the owner's selected Molten River concept. Master, prompt and export settings: art/molten-river-blight-20261008/. Runtime: assets/ui/ashen-blight-molten-river.webp, with a generated light twin. No third-party artwork or license is claimed.
+
 <!-- Added by tools/import.mjs in cehinds/AshenSpire-art; everything below the rule is AshenSpire's CREDITS.md, verbatim. -->
 
 **Card portrait additions (2026-10-06):**
