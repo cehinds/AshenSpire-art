@@ -6199,6 +6199,7 @@
     "sprites/starseer_rot.webp": {"high":"a1dfdaef20e94ea4f9de7cbf256f573d80dc12ae291cb9b9316e255165f95e01","twin":"d1a502cf2dfbe96f2b9745a259373ab42a87fd0a2537bb96aa3bd59e811c7134","policy":"3c5e4db72783f9dd"},
     "ui-components/armoury.webp": {"high":"8e5f109f7160e6612f0a919246338c3c3f28c15141c11856d077305b72627b23","twin":"a26074db75d0937fe40d65bd1473f8238f195d1d886f399038dbf9ff90d97dda","policy":"2e8f9e32687b665c"},
     "ui-components/menu.webp": {"high":"35227850e0bff4ccc7629b25f3346221c4171aeed47e626a5c4a6ef8d2027cd4","twin":"404a7e5a56c9a2be6509f12a9d5eeab851c68baf22a050cdf46db1b04dfdd846","policy":"2e8f9e32687b665c"},
+    "ui/ashen-blight-molten-river.webp": {"high":"e0871dbcbb314ad0ea4dcc9b5d450625219187c3312c1b7aa2eb22754bd1774d","twin":"c4e1797057561551d2021451bd2e42e4c83be55394190ff5ff4ac8d1eae13165","policy":"2e8f9e32687b665c"},
     "ui/flasks/flask-azure.webp": {"high":"73eeb1bed7126c58cc14c447c8b2147d834afe8f43cfb1141c8b94d5df62c5b4","twin":"578706065e0313beae44d4127a5efc2873e4610cd0c5360e38a041e72fe28017","policy":"2e8f9e32687b665c"},
     "ui/flasks/flask-blight.webp": {"high":"d08762aaf99de4cea6433f34b27bb5b21447ee8bd6bc2bb2cec982af4b110d8f","twin":"752af1627a3c00b188a72a5a8539608a4fd546dfa78b88228e1cdd26f3cb3f5e","policy":"2e8f9e32687b665c"},
     "ui/flasks/flask-blood.webp": {"high":"83f2315316d0b5c97017bb3c978a0aca8b246935b9d57c4265bdb1412aa04a29","twin":"f307cfd4acfbe5c702bb8c4bb37cc67bfc275a44425fe95ed973fb6af5ed9ee2","policy":"2e8f9e32687b665c"},
