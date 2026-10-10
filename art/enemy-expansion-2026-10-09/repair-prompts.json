@@ -1,0 +1,28 @@
+{
+  "mode": "Built-in image_gen",
+  "notes": "Base production prompts are in angle-direction.json plus prompts.json enemy adaptations. Earlier left-facing generations are superseded.",
+  "repairs": [
+    {
+      "enemy": "wanderingSoldier",
+      "poses": [
+        "sweep-02",
+        "block-01"
+      ],
+      "request": "Remove only detached stray sword fragment; preserve knight, held sword/shield, pose, scale, proportions, colors and true alpha."
+    },
+    {
+      "enemy": "glassRegent",
+      "request": "Keep 24 poses in same grid, remove gray matte halos and haze, crisp contained cyan effects, preserve opaque metallic armor and true alpha."
+    },
+    {
+      "enemy": "eclipseCantor",
+      "pose": "ranged-02",
+      "request": "Full-body front three-quarter screen-left physical silver needle release. Keep blue orb staff in left hand and both feet. Do not output standalone projectile."
+    },
+    {
+      "enemy": "stitchedKing",
+      "request": "Non-graphic, fully clothed bulky crowned warrior in stitched patchwork leather armor, dark cloth, red cape, broad iron cleaver, purple magic. Same 24-pose order. No exposed torso, gore or blood.",
+      "deviation": "Covered/armored treatment differs from canonical exposed stitched body. Canonical identity acceptance remains unresolved. Original reference-based image generation was rejected by image tool."
+    }
+  ]
+}

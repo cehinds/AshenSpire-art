@@ -381,3 +381,13 @@ identify each source and reused pose. Runtime exports live under
 `assets/animations/player-attacks/`; light twins follow the art repository policy.
 The four provisional spear sequences are excluded. No third-party artwork was
 downloaded and no third-party license is claimed.
+
+## Enemy expansion, 2026-10-09
+
+`hd/assets/enemy-poses/expansion/` contains 792 first-party AI-generated enemy
+frames. OpenAI image generation used existing project enemy designs and the
+owner's supplied angle references. Recorded prompts, generated sheets,
+corrections, contact sheets and embedded Sprite Workshop projects accompany
+them in `art/enemy-expansion-2026-10-09/`. No third-party or Creative Commons
+licence is asserted. These are development paintings with documented clipping,
+matte and design-review issues; see that folder's README.
