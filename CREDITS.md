@@ -392,3 +392,13 @@ option 01; new variants were painted with OpenAI image generation. Slash,
 arcane staff, gold palm and dagger effects remain separate from body frames.
 `tools/player-counter-sweep.py` exports the selected runtime art. No third-party
 artwork was downloaded and no third-party license is claimed.
+
+## Enemy expansion, 2026-10-09
+
+`hd/assets/enemy-poses/expansion/` contains 792 first-party AI-generated enemy
+frames. OpenAI image generation used existing project enemy designs and the
+owner's supplied angle references. Recorded prompts, generated sheets,
+corrections and rebuild tooling for contact sheets and embedded projects accompany
+them in `art/enemy-expansion-2026-10-09/`. No third-party or Creative Commons
+licence is asserted. These are development paintings with documented clipping,
+matte and design-review issues; see that folder's README.
