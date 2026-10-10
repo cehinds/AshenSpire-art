@@ -371,3 +371,13 @@ art; no third-party license claimed.
 ## Starter card paintings (2026-10-03)
 
 Original Starstone Pebble, Urgent Heal, and Ambush paintings made with OpenAI's built-in image generator for AshenSpire. Exact prompts, unchanged PNG masters, export recipe and hash receipts are in art/starter-card-paintings-2026-10-03/. Runtime assets/cards/{starstone-pebble,urgent-heal,ambush}-{512,1024}.webp and their light twins share this provenance. No third-party artwork was downloaded and no third-party license is claimed.
+
+### Reviewed default-outfit player attacks (2026-10-09)
+
+Original OpenAI-generated paintings and reused first-party AshenSpire poses power
+32 four-phase attack sequences for Reaver, Starseer, Herald and Rogue.
+[Retained PNGs, prompts and review provenance](https://github.com/cehinds/AshenSpire-art/tree/main/art/player-attacks-2026-10-09)
+identify each source and reused pose. Runtime exports live under
+`assets/animations/player-attacks/`; light twins follow the art repository policy.
+The four provisional spear sequences are excluded. No third-party artwork was
+downloaded and no third-party license is claimed.
