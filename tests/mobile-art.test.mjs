@@ -88,18 +88,18 @@ test('new card compression stays isolated from sprites and existing card artwork
   assert.equal(policyDigest('cards/slashing-strike-512.webp',changed),policyDigest('cards/slashing-strike-512.webp'));
 });
 
-test('all sprite families share the 480 px ceiling while scenery uses a 720p box', () => {
+test('all sprite and scenery families share the 256 px ceiling', () => {
   const families = ['animations', 'sprites', 'poses', 'painted-outfits', 'readiness-poses', 'enemy-poses', 'enemy-states', 'defeated-poses', 'enemies-unity', 'enemies-expansion', 'combat-effects', 'pose-effects', 'equipment'];
   for (const family of families) {
     const policy = policyFor(`${family}/frame.webp`);
-    assert.deepEqual([policy.maxEdge, policy.quality, policy.alphaQuality], [480, 12, 25]);
-    assert.deepEqual(twinDimensions({ width: 200, height: 100 }, policy), { width: 200, height: 100 }, 'under 480 px keeps its size');
-    assert.deepEqual(twinDimensions({ width: 512, height: 256 }, policy), { width: 480, height: 240 });
+    assert.deepEqual([policy.maxEdge, policy.quality, policy.alphaQuality], [256, 12, 25]);
+    assert.deepEqual(twinDimensions({ width: 200, height: 100 }, policy), { width: 200, height: 100 }, 'under 256 px keeps its size');
+    assert.deepEqual(twinDimensions({ width: 512, height: 256 }, policy), { width: 256, height: 128 });
   }
-  assert.deepEqual(twinDimensions({ width: 640, height: 640 }, policyFor('animations/bow/herald/BOW-01.webp')), { width: 480, height: 480 });
+  assert.deepEqual(twinDimensions({ width: 640, height: 640 }, policyFor('animations/bow/herald/BOW-01.webp')), { width: 256, height: 256 });
   assert.deepEqual(twinDimensions({ width: 1, height: 1 }, policyFor('poses/tiny.webp')), { width: 1, height: 1 });
-  assert.equal(policyFor('environments/wide.webp').maxHeight, 720);
-  assert.deepEqual(twinDimensions({ width: 1536, height: 1024 }, policyFor('environments/wide.webp')), { width: 1080, height: 720 });
+  assert.equal(policyFor('environments/wide.webp').maxHeight, 256);
+  assert.deepEqual(twinDimensions({ width: 1536, height: 1024 }, policyFor('environments/wide.webp')), { width: 256, height: 171 });
 });
 
 test('a scenery height-only policy change invalidates scenery provenance, not sprite twins', () => {
