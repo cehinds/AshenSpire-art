@@ -51,6 +51,10 @@ claimed for this batch. The imported game credits below remain verbatim.
 
 # Credits & Asset Licenses
 
+## Unassigned card art authoring library (2026-10-12)
+
+[Card art library](art/card-art-library-60/README.md): 60 original illustrations generated with OpenAI image generation under human direction, with 1024 × 1536 PNG masters and two WebP preview sizes per illustration. Physical and Magical categories each contain Attack, Smash, Counter, Evade, Sweep and Defend, with five color variants per type. All ten Counter images were revised to shield-and-sword subjects; five Physical Sweep images were revised so one curved blade leads its trailing arc. The other 45 images are unchanged. The manifest and generation shards record prompts, source hashes and prior revision provenance. This is unassigned source artwork under `art/`, excluded from runtime packs; no playable cards, runtime assignments or releases are added. No third-party licence is claimed or inferred.
+
 ## Empty-hand magic animation suites (2026-09-19)
 
 Original artwork generated for AshenSpire with OpenAI's built-in image generation, using the project's approved class and armor references. Transparent PNG masters and exact prompts: `art/unarmed-magic-2026-09-19/`. Runtime WebP frames: `assets/animations/unarmed-magic/`. All four classes and 35 armor catalog entries share one choreography across 32 distinct appearances; no external artwork was downloaded and no third-party asset license is claimed. The existing `src/ui/assets.js` painted-stage and asset-map path resolves the configured frames.
