@@ -1,6 +1,6 @@
 # Card art authoring library
 
-60 unassigned artworks: 12 designs with five colors each. Physical and Magical
+60 artworks: 12 designs with five colors each. Physical and Magical
 categories each contain Attack, Smash, Counter, Evade, Sweep and Defend. Each
 five-image family uses variant 01 as its canonical design; variants 02–05 change
 the color palette and aura while retaining that design.
@@ -13,9 +13,10 @@ variants of the same pose. This selection replaces only the five Physical Sweep
 images from the previous working revision; the other 55 remain unchanged.
 Counter artwork retains a shield and sword.
 
-These are authoring sources for future assignment, not new playable cards. No
-card definitions, mechanics, runtime mappings, runtime packs or release files
-are changed.
+These authoring sources now supply 120 runtime image IDs in
+assets/cards/library/. This adds art choices without adding playable cards or
+changing card mechanics. Existing runtime images remain available unchanged.
+See RUNTIME.md for the source mapping and repeatable integration procedure.
 
 - masters/: 60 individual 1024 × 1536 PNG sources.
 - exports/: 120 WebP previews, 512 × 768 and 1024 × 1536.
@@ -40,13 +41,16 @@ All artwork was generated with OpenAI image generation under human direction.
 The existing AshenSpire shield guided the simple subjects, worn materials and
 restrained auras. No third-party licence is claimed or inferred.
 
-This library belongs under art/ in cehinds/AshenSpire-art, excluded from runtime
-packs. It is not placed in hd/ or light/; art-manifest.json and release pins remain
-unchanged. The earlier three-card pilot is separate and is not included.
+The masters, source exports and provenance remain under art/ in
+cehinds/AshenSpire-art, excluded from runtime packs. Byte-identical copies of
+the 120 exports live under hd/assets/cards/library/; their generated light
+twins and art-manifest.json entries are included in runtime packs.
+The earlier three-card pilot is separate and is not included.
 
 Reproduce and verify with Node.js, Sharp 0.35.5 and WebP 1.6.0:
 node export.mjs --sharp /path/to/node_modules/sharp
 
 Verification covers 60 unique masters, 120 exact export hashes and dimensions,
 twelve groups of five, gallery filters, image enlargement, keyboard dismissal
-and mobile layout. Local commit only; no publication or game assignment.
+and mobile layout. Runtime integration is checked separately as described in
+RUNTIME.md; game assignments and release pins are managed in the game repository.
