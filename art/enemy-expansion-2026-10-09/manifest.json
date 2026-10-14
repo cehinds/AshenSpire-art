@@ -303,6 +303,10 @@
       "review": "not reviewed",
       "sourceHash": "7b4c1011498486dc632c03fd10c16da6e5665d9afb38e1b4afdd0ea90868398d",
       "exportVersion": 4,
+      "overrideHashes": {
+        "sweep-02": "d8672e22da00a7dbb6a08a255c4129dcac6fb3a90024f4d0a8a2f81056cfd834",
+        "block-01": "45170b7feff14c2eb4e4d7fe577103939118a08dbaac9a043a204cf168736a28"
+      },
       "nativeCellSize": [
         209,
         313.5
@@ -10664,6 +10668,9 @@
       "review": "not reviewed",
       "sourceHash": "67de6b1ef13e4353b7a8122a7da6a97e45152092b5c02fc6e4f4f40896917470",
       "exportVersion": 4,
+      "overrideHashes": {
+        "idle": "b962b02f85ae42c5a574a47b3dbeb12ffd39aedba24f310cf69cf02f4487c37d"
+      },
       "nativeCellSize": [
         209,
         313.5
@@ -11173,11 +11180,11 @@
         },
         {
           "pose": "idle",
-          "transparentPixels": 182970,
-          "paintedPixels": 61045,
+          "transparentPixels": 203687,
+          "paintedPixels": 56048,
           "boundaryPixels": 0,
           "sourceBoundaryPixels": 0,
-          "override": false,
+          "override": true,
           "check": "clear-boundary"
         }
       ],
@@ -23416,6 +23423,9 @@
       "review": "not reviewed",
       "sourceHash": "5ca1dc36065942f8bb7099bd6bc0107efe75bd5888b6f71e3092aeade1e5329b",
       "exportVersion": 4,
+      "overrideHashes": {
+        "ranged-02": "1c6ec4ac15d48c36c3b8fab14a54f6ec61ac6c0593a86cf2f60a95e13d9871b7"
+      },
       "nativeCellSize": [
         209,
         313.5

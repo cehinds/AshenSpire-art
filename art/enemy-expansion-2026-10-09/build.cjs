@@ -14,8 +14,9 @@ const aliases={unknown:'idle',default:'idle',attacking:'attack-03','wind-up':'pr
   const id=e.id,file=out+'/front-sheets/'+id+'.png';const record={id,name:e.name,act:e.act,adaptation:prompts.adaptations[id],actions:{},stances:{},status:'missing',review:'not reviewed'};manifest.enemies.push(record);
   if(!fs.existsSync(file))continue;
   const hash=require('crypto').createHash('sha256').update(fs.readFileSync(file)).digest('hex');
-  const cached=old.enemies.find(x=>x.id===id&&x.sourceHash===hash&&x.exportVersion===4);if(cached && labels.every(p=>fs.existsSync(out+'/frames/'+id+'/'+p+'.png'))){Object.assign(record,cached);continue;}
-  record.sourceHash=hash;record.exportVersion=4;
+  const overrideHashes=Object.fromEntries(labels.filter(p=>fs.existsSync(out+'/overrides/'+id+'/'+p+'.png')).map(p=>[p,require('crypto').createHash('sha256').update(fs.readFileSync(out+'/overrides/'+id+'/'+p+'.png')).digest('hex')]));
+  const cached=old.enemies.find(x=>x.id===id&&x.sourceHash===hash&&x.exportVersion===4&&JSON.stringify(x.overrideHashes||{})===JSON.stringify(overrideHashes));if(cached && labels.every(p=>fs.existsSync(out+'/frames/'+id+'/'+p+'.png'))){Object.assign(record,cached);continue;}
+  record.sourceHash=hash;record.exportVersion=4;record.overrideHashes=overrideHashes;
   const metadata=await sharp(file).metadata();record.nativeCellSize=[metadata.width/6,metadata.height/4];record.hasAlpha=metadata.hasAlpha;record.status='generated-needs-review';
   const raw=await sharp(file).ensureAlpha().raw().toBuffer({resolveWithObject:true});
   const W=raw.info.width,H=raw.info.height;
